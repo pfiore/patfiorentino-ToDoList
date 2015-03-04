@@ -17,61 +17,54 @@
 
     $app->get("/", function() use ($app) {
 
-        $output = "";
+        // $output = "";
+        //
+        // // $all_tasks = Task::getAll();
+        //
+        // if (!empty(Task::getAll())) {
+        //     $output .= "
+        //         <h1>To Do List</h1>
+        //         <p>Here are all your tasks:</p>
+        //         <ul>";
+        //
+        //     foreach (Task::getAll() as $task) {
+        //         $output .= "<p>" . $task->getDescription() . "</p>";
+        //     }
+        //
+        //     $output .= "</ul>";
+        // }
+        //
+        // $output .= "
+        //     <form action='/tasks' method='post'>
+        //         <label for='description'>Task Description</label>
+        //         <input id='description' name='description' type='text'>
+        //
+        //         <button type='submit'>Add task</button>
+        //     </form>
+        // ";
+        //
+        // $output .= "
+        //     <form action='/delete_tasks' method='post'>
+        //         <button type='submit'>delete</button>
+        //     </form>
+        // ";
 
-        // $all_tasks = Task::getAll();
 
-        if (!empty(Task::getAll())) {
-            $output .= "
-                <h1>To Do List</h1>
-                <p>Here are all your tasks:</p>
-                <ul>";
-
-            foreach (Task::getAll() as $task) {
-                $output .= "<p>" . $task->getDescription() . "</p>";
-            }
-
-            $output .= "</ul>";
-        }
-
-        $output .= "
-            <form action='/tasks' method='post'>
-                <label for='description'>Task Description</label>
-                <input id='description' name='description' type='text'>
-
-                <button type='submit'>Add task</button>
-            </form>
-        ";
-
-        $output .= "
-            <form action='/delete_tasks' method='post'>
-                <button type='submit'>delete</button>
-            </form>
-        ";
-
-
-        return $app['twig']->render('tasks.php', array('tasks' => Task::getAll()));
+        return $app['twig']->render('create_task.php', array('newtask' => $task));
     });
 
-    $app->post("/tasks",function() {
+    $app->post("/tasks",function()  use ($app) {
         $task = new Task($_POST['description']);
         $task->save();
-        return "
-            <h1>You created a task!</h1>
-            <p>" . $task->getDescription() . "</p>
-            <p><a href='/'>View your list of things to do</a></p>
-            ";
+        return $app['twig']->render('create_task.php', array('newtask' => $task));
     });
 
-    $app->post("/delete_tasks", function() {
+    $app->post("/delete_tasks", function() use ($app) {
 
          Task::deleteAll();
 
-         return "
-              <h1>List cleared!</h1>
-              <p><a href='/' >Home</a></p>
-         ";
-    });
+         return $app['twig']->render('delete_tasks.php');
+     });
 
 
 
