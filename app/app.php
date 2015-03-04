@@ -50,7 +50,7 @@
         // ";
 
 
-        return $app['twig']->render('create_task.php', array('newtask' => $task));
+        return $app['twig']->render('tasks.php', array('tasks' => Task::getAll()));
     });
 
     $app->post("/tasks",function()  use ($app) {
