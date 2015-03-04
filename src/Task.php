@@ -4,8 +4,6 @@ class Task
 {
     private $description;
 
-
-
     function __construct($description)
     {
         $this->description = $description;
@@ -36,5 +34,4 @@ class Task
         $_SESSION['list_of_tasks'] = array();
     }
 }
-
 ?>
